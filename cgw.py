@@ -133,8 +133,9 @@ def perplexity(parser: pchart, sentences: list[str], verbose: bool = False) -> f
             num += -math.log2(prob)
             denom += len(sentence.split())
         else:
+            prob = 0.0000000000000000000001
+            num += 10000
             print(f"Error with: {sentence}")
-            num += 0
             denom += len(sentence.split())
 
     return 2**(num/denom)
