@@ -125,8 +125,18 @@ def perplexity(parser: pchart, sentences: list[str], verbose: bool = False) -> f
             print(f"Parse:")
             tree.pretty_print()
             print(f"Prob: {tree.prob()}")
-        num += -math.log2(tree.prob())
-        denom += len(sentence.split())
+        if tree:
+            prob = tree.prob()
+            if prob == 0:
+                prob = 0.0000000000000000000001
+                print(f"Sentence: {sentence} has 0 prob")
+            num += -math.log2(prob)
+            denom += len(sentence.split())
+        else:
+            print(f"Error with: {sentence}")
+            num += 0
+            denom += len(sentence.split())
+
     return 2**(num/denom)
 
 def crossEntropy(parser: pchart, sentences: list[str], verbose: bool = False) -> float:
